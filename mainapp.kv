@@ -1,0 +1,160 @@
+#: import Window kivy.core.window.Window
+
+<Mediaimg>:
+    size_hint: None, None
+    orientation: 'vertical'
+    spacing: 5
+    Image:
+        color: 0,0,0,1
+        no_cache: False
+        source: root.source
+
+    Label:
+        text: root.fname
+        color: 0,0,0,1
+        shorten: True
+        font_size: 12
+        shorten_from: 'center'
+        text_size: self.size
+        size_hint_y:None
+        height: 12
+
+<Spike>:
+    canvas.before:
+        PushMatrix
+
+    canvas:
+        Rotate:
+            angle: root.angle
+            origin: self.center
+
+        Color:
+            rgba:1,1,1,1
+
+        Rectangle:
+            size: self.size
+            pos: self.pos
+
+        SmoothLine:
+            rectangle: self.x, self.y, self.width, self.height
+
+
+    canvas.after:
+        PopMatrix
+    size_hint: None, None
+    width: 1
+    height: root.no
+
+<Deck>:
+    Widget:
+        pos_hint: {"center_x":.5,"center_y":.5}
+        canvas.before:
+            PushMatrix
+            Rotate:
+                angle: 90
+                origin: self.center
+
+        canvas:
+            Color:
+                rgba: 1,0,0,1
+
+            Ellipse:
+                size: self.width +6, self.height+6
+                pos: self.x -3, self.y-3
+                angle_start: 0
+                angle_end: root.dc_angle
+
+            Color:
+                rgba: .3,.3,.3,1
+
+            Ellipse:
+                size: self.size
+                pos: self.pos
+                
+        canvas.after:
+            PopMatrix
+
+    Widget:
+        id: wd_seeker
+        pos_hint: {"center_x":.5,"center_y":.5}
+
+        canvas.before:
+            PushMatrix
+            Rotate:
+                angle: root.angle
+                origin: self.center
+                   
+        canvas:
+            Color:
+                group: 'a'
+                rgba: 1,0,0,1
+                
+            Ellipse:
+                size: 20,20
+                group:'b'
+                pos: self.x-10, self.y+ self.height/2-10
+
+            SmoothLine:
+                ellipse: self.x-10, self.y+ self.height/2-10, 20, 20
+
+        
+        canvas.after:
+            PopMatrix
+
+<MediaPlayer>:
+    canvas:
+        Color:
+            rgba: 1,1,1,1
+
+        Rectangle:
+            size: self.size
+            pos: self.pos
+            texture: root.player_texture
+
+<mainpage>:
+    orientation: 'vertical'
+
+    MediaPlayer:
+        id: vd
+        Deck:
+            size_hint: None, None
+            size: dp(100), dp(100)
+            pos_hint: {"center_y":.5, "center_x":.5}
+        
+
+    BoxLayout:
+        canvas:
+            Color:
+                rgba: 1,1,1,1
+
+            Rectangle:
+                size: self.size
+                pos: self.pos
+                
+        size_hint_x: 1
+        size_hint_y: None
+        height: 100
+        orientation: 'horizontal'
+
+        BoxLayout:
+            orientation: 'horizontal'
+            Label:
+                text: 'Music'
+                font_size: 20
+                color:0,0,0,1
+            Image:
+                source: 'assets\\arrr.png'
+                size_hint: None, None
+                size: 64,64
+                pos_hint:{'center_y':.5,'center_x':.5}
+           
+                
+        ScrollView:
+            BoxLayout:
+                id: boxmedia
+                size_hint: None, 1
+                width: self.minimum_width
+                padding: 100,8,8,8
+                spacing: 16
+                
+        
